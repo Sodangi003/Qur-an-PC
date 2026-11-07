@@ -48,7 +48,7 @@ If it fails with a sandbox error on Ubuntu 24.04 or newer, run it with `--no-san
 - Search the Quran in Arabic (ignores diacritics and alef variants) with highlighted matches
 - Double-click any ayah to bookmark it; bookmarks and your last surah are remembered
 - Three Quran fonts to choose from: Amiri Quran, Scheherazade New and Noto Naskh Arabic
-- Text size, light / dark / sepia themes, F11 fullscreen, print support
+- Text size, Mushaf-style page (default), light, dark and sepia themes, F11 fullscreen, print support
 - About window with credits and licences
 
 ## Shortcuts

@@ -51,6 +51,7 @@
 
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
+body { height: 100dvh; -webkit-text-size-adjust: 100%; }
 body {
   display: flex;
   background: var(--bg);
@@ -288,3 +289,164 @@ mark { background: var(--hl); color: inherit; border-radius: 3px; }
 .ab-box ul { padding-left: 18px; margin: 4px 0; }
 .ab-box a { color: var(--accent); }
 .ab-foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+
+/* ---------- Mushaf theme (parchment page, ornate frame, gold banner) ---------- */
+:root[data-theme="mushaf"] {
+  --bg: #f6ecd2;
+  --panel: #ecdfbf;
+  --ink: #1c140a;
+  --muted: #6f5b38;
+  --line: #d4c196;
+  --accent: #1b6f78;
+  --accent-ink: #ffffff;
+  --hl: #f2d98f;
+}
+/* walnut "wooden stand" toolbar and sidebar */
+:root[data-theme="mushaf"] #sidebar,
+:root[data-theme="mushaf"] #toolbar {
+  --bg: #4a3322;
+  --panel: #33231a;
+  --ink: #f3e8d0;
+  --muted: #c9b48a;
+  --line: #5e4630;
+  --accent: #e6bf55;
+  --accent-ink: #2b1c0a;
+  color: var(--ink);
+}
+:root[data-theme="mushaf"] #toolbar { border-bottom-color: #1f150e; }
+:root[data-theme="mushaf"] #sidebar { border-right-color: #1f150e; }
+:root[data-theme="mushaf"] #toolbar button,
+:root[data-theme="mushaf"] #toolbar select { background: #4a3322; }
+:root[data-theme="mushaf"] #toolbar button:disabled { opacity: .45; }
+:root[data-theme="mushaf"] #toolbar select option { background: #33231a; color: #f3e8d0; }
+
+/* the reading desk (carpet) */
+:root[data-theme="mushaf"] #reader {
+  background: #d9c8a5 url("img/carpet.svg");
+  padding: 28px 4vw 90px;
+  box-shadow: inset 0 0 90px rgba(70,40,10,.28);
+}
+/* the page */
+:root[data-theme="mushaf"] .page {
+  position: relative;
+  max-width: 860px;
+  margin: 6px auto;
+  border: 26px solid transparent;
+  border-image: url("img/frame.svg") 30 / 26px round;
+  padding: 16px 26px 24px;
+  background:
+    linear-gradient(90deg, rgba(120,75,20,.20), rgba(120,75,20,0) 80px),
+    url("img/paper.svg"),
+    #f6ecd2;
+  box-shadow: 5px 3px 0 -1px #ead9ac, 9px 6px 0 -2px #d5c08d, 0 24px 46px rgba(45,25,8,.45);
+}
+/* red ribbon marker at the spine */
+:root[data-theme="mushaf"] .page::before {
+  content: "";
+  position: absolute;
+  left: -13px; top: -10px; bottom: -8px;
+  width: 10px;
+  background: linear-gradient(90deg, #8e1b22, #c8333b 55%, #9a2028);
+  box-shadow: 2px 0 6px rgba(0,0,0,.35);
+  border-radius: 1px;
+}
+/* gold surah banner with lapis end-caps */
+:root[data-theme="mushaf"] .s-head {
+  position: relative;
+  margin: 4px 0 26px;
+  padding: 12px 86px;
+  border: 0;
+  border-radius: 4px;
+  background: linear-gradient(#f4db8f, #ddb54a 52%, #c9992b);
+  box-shadow:
+    inset 0 0 0 2px #8a6a1c,
+    inset 0 0 0 4px #f6e5ab,
+    inset 0 0 0 5.5px #a8832a,
+    0 2px 7px rgba(80,50,10,.35);
+}
+:root[data-theme="mushaf"] .s-head::before,
+:root[data-theme="mushaf"] .s-head::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 70px;
+  height: calc(100% + 10px);
+  transform: translateY(-50%);
+  background: url("img/cap.svg") center / 100% 100% no-repeat;
+}
+:root[data-theme="mushaf"] .s-head::before { left: -8px; }
+:root[data-theme="mushaf"] .s-head::after { right: -8px; transform: translateY(-50%) scaleX(-1); }
+:root[data-theme="mushaf"] .s-head .ar { color: #0d3a44; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
+:root[data-theme="mushaf"] .s-head .meta { color: #5b4514; }
+:root[data-theme="mushaf"] .bismillah { color: #1c140a; }
+:root[data-theme="mushaf"] .text { color: #1c140a; }
+/* verse-end medallions */
+:root[data-theme="mushaf"] .end {
+  min-width: 1.75em;
+  height: 1.75em;
+  font-size: .44em;
+  font-weight: 600;
+  color: #082a31;
+  border: 2px solid #c9a24a;
+  background: radial-gradient(circle at 35% 30%, #b3dde0, #3f9aa3 72%);
+  box-shadow: 0 0 0 1px #8a6a1c, 0 1px 2px rgba(60,40,10,.35);
+}
+:root[data-theme="mushaf"] .ayah.marked { box-shadow: 0 2px 0 #1b6f78; }
+:root[data-theme="mushaf"] .nav-bottom { margin-top: 24px; }
+:root[data-theme="mushaf"] .nav-bottom button { background: #ecdfbf; }
+
+/* ---------- Phones and small screens ---------- */
+#menuBtn, #scrim { display: none; }
+@media (max-width: 760px) {
+  body { font-size: 15px; }
+  #menuBtn { display: inline-block; order: 0; padding: 6px 12px; font-size: 18px; line-height: 1; }
+  #scrim { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 14; }
+  #scrim[hidden] { display: none; }
+
+  #sidebar {
+    position: fixed; top: 0; bottom: 0; left: 0;
+    width: min(86vw, 340px);
+    z-index: 15;
+    transform: translateX(-102%);
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  body.nav-open #sidebar { transform: none; box-shadow: 0 0 30px rgba(0,0,0,.35); }
+  body.nav-open { overflow: hidden; }
+
+  #toolbar { flex-wrap: wrap; gap: 6px 8px; padding: 8px 10px; }
+  .tb-nav { display: contents; }
+  #prev { order: 1; padding: 6px 10px; }
+  .tb-title { order: 2; flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+  #next { order: 3; padding: 6px 10px; }
+  .tb-tools { order: 4; flex: 1 1 100%; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tb-tools::-webkit-scrollbar { display: none; }
+  .tb-tools button, .tb-tools select { flex: none; padding: 6px 10px; }
+
+  #reader { padding: 14px 14px 80px; }
+  .s-head { padding: 10px; margin-bottom: 18px; }
+  .text { line-height: 2.1; text-align: justify; }
+  .nav-bottom { gap: 8px; }
+
+  #searchPanel { padding: 12px 8px; }
+  .sp-box { padding: 10px; max-height: 94dvh; }
+  #q { font-size: 20px; }
+  .res .t { font-size: 21px; }
+  #about { padding: 10px; }
+  .ab-box { padding: 16px; }
+}
+
+@media (max-width: 760px) {
+  :root[data-theme="mushaf"] #reader { padding: 14px 8px 80px; }
+  :root[data-theme="mushaf"] .page {
+    border-width: 17px;
+    border-image: url("img/frame.svg") 30 / 17px round;
+    padding: 10px 12px 18px;
+    margin: 2px auto;
+  }
+  :root[data-theme="mushaf"] .page::before { display: none; }
+  :root[data-theme="mushaf"] .s-head { padding: 9px 50px; margin-bottom: 18px; }
+  :root[data-theme="mushaf"] .s-head::before,
+  :root[data-theme="mushaf"] .s-head::after { width: 46px; }
+  :root[data-theme="mushaf"] .s-head::before { left: -6px; }
+  :root[data-theme="mushaf"] .s-head::after { right: -6px; }
+}

@@ -20,7 +20,7 @@
   const state = {
     surah: store.get('surah', 1),
     tab: 'surah',
-    size: store.get('size', 34),
+    size: store.get('size', window.innerWidth < 700 ? 26 : 34),
     theme: store.get('theme', null),
     font: store.get('font', 'amiri'),
     marks: store.get('marks', []) // ["s:a", ...]
@@ -45,7 +45,7 @@
   $('fontSel').onchange = (e) => { state.font = e.target.value; applyFont(); };
 
   function applyTheme() {
-    const t = state.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const t = ['mushaf', 'light', 'dark', 'sepia'].includes(state.theme) ? state.theme : 'mushaf';
     document.documentElement.setAttribute('data-theme', t);
   }
   function applySize() {
@@ -54,7 +54,7 @@
   }
   $('theme').onclick = () => {
     const cur = document.documentElement.getAttribute('data-theme');
-    const order = ['light', 'dark', 'sepia'];
+    const order = ['mushaf', 'light', 'dark', 'sepia'];
     state.theme = order[(order.indexOf(cur) + 1) % order.length];
     store.set('theme', state.theme);
     applyTheme();
@@ -67,6 +67,19 @@
 
   $('bigger').onclick = () => { state.size = Math.min(80, state.size + 2); applySize(); };
   $('smaller').onclick = () => { state.size = Math.max(18, state.size - 2); applySize(); };
+
+  // ---------- mobile slide-out menu ----------
+  const mobileMq = window.matchMedia('(max-width: 760px)');
+  function setNav(open) {
+    document.body.classList.toggle('nav-open', open);
+    $('scrim').hidden = !open;
+    $('menuBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  $('menuBtn').onclick = () => setNav(!document.body.classList.contains('nav-open'));
+  $('scrim').onclick = () => setNav(false);
+  list.addEventListener('click', (e) => { if (mobileMq.matches && e.target.closest('.item')) setNav(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
+  mobileMq.addEventListener('change', () => setNav(false));
 
   // ---------- sidebar lists ----------
   function item(num, en, sub, ar, active, onClick) {
