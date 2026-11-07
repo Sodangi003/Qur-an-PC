@@ -1,0 +1,46 @@
+{
+  "name": "quran-pc",
+  "productName": "Quran PC",
+  "version": "1.0.0",
+  "description": "Qur'an PC - offline Arabic Quran reader",
+  "main": "main.js",
+  "author": "Sodangi003",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis portable",
+    "dist:win": "electron-builder --win nsis portable",
+    "dist:linux": "electron-builder --linux AppImage tar.gz"
+  },
+  "build": {
+    "appId": "com.sodangi003.quranpc",
+    "productName": "Quran PC",
+    "files": [
+      "main.js",
+      "app/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "tar.gz"
+      ],
+      "category": "Education",
+      "synopsis": "Offline Arabic Quran reader"
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.2.3",
+    "electron-builder": "^26.0.0"
+  }
+}

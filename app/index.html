@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qur'an PC</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <aside id="sidebar">
+    <div class="side-head">
+      <h1>القرآن الكريم</h1>
+      <input id="filter" type="search" placeholder="Filter surahs…" aria-label="Filter surahs">
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="surah" role="tab">Surahs</button>
+      <button class="tab" data-tab="juz" role="tab">Juz</button>
+      <button class="tab" data-tab="marks" role="tab">Bookmarks</button>
+    </div>
+    <nav id="list" aria-label="Navigation"></nav>
+  </aside>
+
+  <main id="main">
+    <header id="toolbar">
+      <div class="tb-group">
+        <button id="prev" title="Previous surah (Alt+←)">‹ Prev</button>
+        <button id="next" title="Next surah (Alt+→)">Next ›</button>
+      </div>
+      <div class="tb-title" id="title"></div>
+      <div class="tb-group">
+        <button id="searchBtn" title="Search the Quran (Ctrl+F)">Search</button>
+        <button id="smaller" title="Smaller text (Ctrl+-)">A−</button>
+        <button id="bigger" title="Larger text (Ctrl++)">A+</button>
+        <select id="fontSel" title="Quran font" aria-label="Quran font">
+          <option value="amiri">Amiri Quran</option>
+          <option value="scheherazade">Scheherazade</option>
+          <option value="naskh">Noto Naskh</option>
+        </select>
+        <button id="theme" title="Change theme (light, dark, sepia)">Theme</button>
+        <button id="aboutBtn" title="About and credits">About</button>
+      </div>
+    </header>
+    <section id="reader" tabindex="0"></section>
+  </main>
+
+  <div id="searchPanel" hidden>
+    <div class="sp-box">
+      <div class="sp-top">
+        <input id="q" type="search" dir="rtl" placeholder="ابحث في القرآن… (Arabic, diacritics ignored)" aria-label="Search">
+        <button id="closeSearch">Close</button>
+      </div>
+      <div id="sp-count"></div>
+      <div id="sp-results"></div>
+    </div>
+  </div>
+
+  <div id="about" hidden role="dialog" aria-modal="true" aria-labelledby="ab-title">
+    <div class="ab-box">
+      <div class="ab-head">
+        <img src="icon.svg" alt="">
+        <div>
+          <h2 id="ab-title">Qur'an PC</h2>
+          <small>Version <span id="ab-ver">1.0.0</span> · Works offline</small>
+        </div>
+      </div>
+      <p>An offline Arabic Quran reader for Windows, Linux and the web.</p>
+      <h3>Credits</h3>
+      <ul>
+        <li><b>Quran text:</b> from the <code>quran-json</code> project, licensed under
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</li>
+        <li><b>Amiri Quran</b> font, by Khaled Hosny. SIL Open Font License 1.1.</li>
+        <li><b>Scheherazade New</b> font, by SIL Global. SIL Open Font License 1.1.</li>
+        <li><b>Noto Naskh Arabic</b> font, by The Noto Project Authors. SIL Open Font License 1.1.</li>
+      </ul>
+      <h3>Shortcuts</h3>
+      <p>Ctrl+F search · Ctrl + / − text size · Alt+← / → previous / next surah · F11 fullscreen · double-click an ayah to bookmark it.</p>
+      <h3>Please note</h3>
+      <p>Please check the text against a trusted printed mushaf before relying on it for study or teaching.</p>
+      <div class="ab-foot"><button id="aboutClose">Close</button></div>
+    </div>
+  </div>
+
+  <script src="data/quran.js?v=2"></script>
+  <script src="app.js?v=2"></script>
+</body>
+</html>
