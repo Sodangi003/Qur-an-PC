@@ -28,7 +28,8 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Qur-an-PC-Setup-${version}.${ext}"
     },
     "linux": {
       "target": [
@@ -36,7 +37,11 @@
         "tar.gz"
       ],
       "category": "Education",
-      "synopsis": "Offline Arabic Quran reader"
+      "synopsis": "Offline Arabic Quran reader",
+      "artifactName": "Qur-an-PC-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "Qur-an-PC-Portable-${version}.${ext}"
     }
   },
   "devDependencies": {

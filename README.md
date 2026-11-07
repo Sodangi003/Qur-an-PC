@@ -4,6 +4,8 @@ Offline Arabic Quran reader for Windows and Linux, also available as a website. 
 
 ## Download
 
+Website: https://sodangi003.github.io/Qur-an-PC/ (download page and web version)
+
 Get the latest Windows installer (`.exe`) or Linux `.AppImage` from the **Releases** page of this repository.
 
 ## Run it

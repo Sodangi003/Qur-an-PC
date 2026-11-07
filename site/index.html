@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; script-src 'self'; connect-src https://api.github.com; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qur'an PC – Free offline Quran reader for Windows and Linux</title>
+  <meta name="description" content="Qur'an PC is a free Arabic Quran reader for Windows and Linux. Works fully offline, with fast search, bookmarks, three Quran fonts and light, dark and sepia themes.">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap bar">
+      <a class="brand" href="#top"><img src="img/logo.svg" alt="" width="36" height="36"><span>Qur'an PC</span></a>
+      <nav aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#screens">Screenshots</a>
+        <a href="#download">Download</a>
+        <a href="#faq">FAQ</a>
+        <a class="pill" href="reader/">Open in browser</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <p class="ar" lang="ar" dir="rtl">القرآن الكريم</p>
+          <h1>Qur'an PC</h1>
+          <p class="lead">A clean, free Quran reader for Windows and Linux. Install it once and read anywhere, with no internet needed.</p>
+          <div class="cta" id="heroCta">
+            <a class="btn" id="btnWin" href="https://github.com/Sodangi003/Qur-an-PC/releases/latest" data-os="win">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7H3zM11.6 4.2 21 2.8v8.6h-9.4zM3 12.6h7.5v7L3 18.5zM11.6 12.6H21v8.6l-9.4-1.4z"/></svg>
+              <span><b>Download for Windows</b><small id="winSub">Windows 10 or later</small></span>
+            </a>
+            <a class="btn" id="btnLinux" href="https://github.com/Sodangi003/Qur-an-PC/releases/latest" data-os="linux">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm3.300 4.300 3.700 3.700-3.700 3.700 1.400 1.400 5.100-5.100-5.100-5.100zM13 15.500v2h6v-2z"/></svg>
+              <span><b>Download for Linux</b><small id="linuxSub">AppImage, runs on most distros</small></span>
+            </a>
+            <a class="btn web" id="btnWeb" href="reader/">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.900 9h-3.100a15.600 15.600 0 0 0-1.300-5.500A8 8 0 0 1 18.900 11zM12 4c.8 1 1.800 3.100 2.200 7H9.800C10.200 7.100 11.200 5 12 4zM4.300 13h3.100c.1 2 .6 3.900 1.300 5.500A8 8 0 0 1 4.300 13zm3.100-2H4.300a8 8 0 0 1 4.400-5.500C8 7.100 7.500 9 7.400 11zM12 20c-.8-1-1.800-3.100-2.200-7h4.400c-.4 3.900-1.400 6-2.200 7zm3.300-1.500c.7-1.600 1.200-3.500 1.300-5.500h3.100a8 8 0 0 1-4.400 5.500z"/></svg>
+              <span><b>Read in your browser</b><small>No install, works on phones too</small></span>
+            </a>
+          </div>
+          <p class="hint" id="osHint" hidden></p>
+          <p class="alt"><span id="ver"></span></p>
+        </div>
+        <figure class="shot hero-shot">
+          <div class="frame"><img src="img/reader-light.jpg" width="1280" height="800" alt="Qur'an PC showing Surat Al-Baqarah in the light theme"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="wrap stats-grid">
+        <div><b>114</b><span>Surahs</span></div>
+        <div><b>6,236</b><span>Ayahs</span></div>
+        <div><b>30</b><span>Juz</span></div>
+        <div><b>100%</b><span>Offline</span></div>
+      </div>
+    </section>
+
+    <section class="block" id="features">
+      <div class="wrap">
+        <h2>Everything you need to read</h2>
+        <p class="sub">Simple on purpose, so the Quran stays the focus.</p>
+        <div class="cards">
+          <article><h3>Works offline</h3><p>The full Arabic text and fonts are inside the app. No account, no internet, nothing sent anywhere.</p></article>
+          <article><h3>Fast search</h3><p>Type Arabic letters without diacritics and still find the ayah. Matches are highlighted and one click takes you there.</p></article>
+          <article><h3>Surah, Juz and bookmarks</h3><p>Jump by surah or by any of the 30 juz. Double-click an ayah to bookmark it, and the app remembers where you were.</p></article>
+          <article><h3>Three Quran fonts</h3><p>Choose Amiri Quran, Scheherazade or Noto Naskh, and set the text size that is comfortable for your eyes.</p></article>
+          <article><h3>Light, dark and sepia</h3><p>Read in the day or at night. Each theme is tuned for comfortable long reading.</p></article>
+          <article><h3>Free and open source</h3><p>No ads and no tracking. The code is on GitHub for anyone to read, check and improve.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt-bg" id="screens">
+      <div class="wrap">
+        <h2>See it in action</h2>
+        <p class="sub">Three themes, three fonts, one calm reading view.</p>
+        <div class="shots">
+          <figure class="shot"><div class="frame"><img loading="lazy" src="img/reader-dark.jpg" width="1280" height="800" alt="Dark theme with the Scheherazade font"></div><figcaption>Dark theme</figcaption></figure>
+          <figure class="shot"><div class="frame"><img loading="lazy" src="img/reader-sepia.jpg" width="1280" height="800" alt="Sepia theme with the Noto Naskh font"></div><figcaption>Sepia theme</figcaption></figure>
+          <figure class="shot"><div class="frame"><img loading="lazy" src="img/search.jpg" width="1280" height="800" alt="Searching the Quran for a word, with matches highlighted"></div><figcaption>Search with highlighted matches</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="download">
+      <div class="wrap">
+        <h2>Download Qur'an PC</h2>
+        <p class="sub">Free for Windows and Linux. <span id="ver2">Latest version from GitHub Releases.</span></p>
+        <div class="dl-grid">
+          <article class="dl">
+            <h3>Windows</h3>
+            <p>Windows 10 or later, 64-bit.</p>
+            <a class="btn small" id="dlWinSetup" href="https://github.com/Sodangi003/Qur-an-PC/releases/latest">Installer (.exe)</a>
+            <a class="link" id="dlWinPortable" href="https://github.com/Sodangi003/Qur-an-PC/releases/latest">Portable version, no install</a>
+            <details>
+              <summary>Windows shows "protected your PC"?</summary>
+              <p>This is normal for a new free app that is not signed. Click <b>More info</b>, then <b>Run anyway</b>.</p>
+            </details>
+          </article>
+          <article class="dl">
+            <h3>Linux</h3>
+            <p>Ubuntu, Debian, Fedora, Mint and most other distros, 64-bit.</p>
+            <a class="btn small" id="dlLinux" href="https://github.com/Sodangi003/Qur-an-PC/releases/latest">AppImage</a>
+            <a class="link" id="dlTar" href="https://github.com/Sodangi003/Qur-an-PC/releases/latest">tar.gz archive</a>
+            <details>
+              <summary>How to run it</summary>
+              <p>Open a terminal in your Downloads folder and run:</p>
+              <pre>chmod +x Qur-an-PC-*.AppImage
+./Qur-an-PC-*.AppImage</pre>
+              <p>On Ubuntu 24.04 or newer, if it will not start, add <code>--no-sandbox</code> to the second command.</p>
+            </details>
+          </article>
+          <article class="dl">
+            <h3>In your browser</h3>
+            <p>No install. Works on phones, tablets and any computer.</p>
+            <a class="btn small ghost" href="reader/">Open web version</a>
+            <a class="link" href="https://github.com/Sodangi003/Qur-an-PC">View source on GitHub</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt-bg" id="faq">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>Does it need the internet?</summary><p>Only to download it. After that it works fully offline.</p></details>
+        <details><summary>Is it free?</summary><p>Yes, completely free, with no ads and no tracking. Your bookmarks and settings stay on your own device.</p></details>
+        <details><summary>Where does the Quran text come from?</summary><p>From the open <code>quran-json</code> project, licensed CC BY-SA 4.0. Please check the text against a trusted printed mushaf before relying on it for study or teaching.</p></details>
+        <details><summary>Does it have translation or audio?</summary><p>Not yet. This version is an Arabic reader. More features may come later.</p></details>
+        <details><summary>Does it work on macOS?</summary><p>There is no Mac download yet, but the web version works in any browser on a Mac.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="brand"><img src="img/logo.svg" alt="" width="28" height="28"><span>Qur'an PC</span></div>
+      <p>Free and open source. Code under the MIT licence. Quran text under CC BY-SA 4.0. Fonts: Amiri Quran, Scheherazade New and Noto Naskh Arabic under the SIL Open Font Licence.</p>
+      <p><a href="https://github.com/Sodangi003/Qur-an-PC">GitHub</a> · <a href="https://github.com/Sodangi003/Qur-an-PC/releases">All releases</a> · <a href="reader/">Web version</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

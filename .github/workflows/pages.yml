@@ -18,9 +18,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Assemble site (landing page at /, web reader at /reader/)
+        run: |
+          mkdir -p _site/reader
+          cp -r site/. _site/
+          cp -r app/. _site/reader/
+          touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: app
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
