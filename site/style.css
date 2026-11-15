@@ -147,3 +147,5 @@ footer a { color: #fff; }
   html { scroll-behavior: auto; }
   .btn { transition: none; }
 }
+
+.tag { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 2px 9px; border-radius: 99px; background: var(--gold); color: var(--gold-ink); font-size: 12px; font-weight: 700; letter-spacing: .01em; }

@@ -1,0 +1,16 @@
+{
+  "name": "Qur'an PC",
+  "short_name": "Qur'an PC",
+  "description": "Free offline Arabic Quran reader in the 604 pages of the Madinah Mushaf.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#4a3322",
+  "theme_color": "#33231a",
+  "lang": "ar",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

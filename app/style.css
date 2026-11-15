@@ -653,3 +653,5 @@ mark { background: var(--hl); color: inherit; border-radius: 3px; }
 .tbl td.sn .en { display: block; font-size: .8em; color: var(--muted); }
 .tbl.sjt td:first-child { width: 1.6em; }
 .tbl.sjt td.ar { font-size: 1.15em; line-height: 1.6; }
+
+#installBtn[hidden] { display: none; }
