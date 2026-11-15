@@ -35,35 +35,54 @@ npm run dist:linux
 This creates an `.AppImage` and a `.tar.gz` in `dist/`. Build this on Linux. To run the AppImage:
 
 ```
-chmod +x Quran-Reader-*.AppImage
-./Quran-Reader-*.AppImage
+chmod +x Qur-an-PC-*.AppImage
+./Qur-an-PC-*.AppImage
 ```
 
 If it fails with a sandbox error on Ubuntu 24.04 or newer, run it with `--no-sandbox`.
 
 ## Features
 
-- Full Arabic text: 114 surahs, 6,236 ayahs, Uthmani script, Amiri Quran font bundled (works fully offline)
-- Navigate by surah, by juz (30), or by bookmarks
-- Search the Quran in Arabic (ignores diacritics and alef variants) with highlighted matches
-- Double-click any ayah to bookmark it; bookmarks and your last surah are remembered
-- Three Quran fonts to choose from: Amiri Quran, Scheherazade New and Noto Naskh Arabic
-- Text size, Mushaf-style page (default), light, dark and sepia themes, F11 fullscreen, print support
-- About window with credits and licences
+**Reads like a printed Mushaf**
+- The 604 pages of the Madinah Mushaf layout, one page at a time (no scrolling). Each page shows the same ayahs as the printed page, with the surah banner and basmala where a surah begins
+- Two-page spread on wide screens, one page on small ones. Turn pages with the buttons, the arrow keys or a swipe
+- Page header with juz and hizb, page number in a medallion, hizb and quarter signs (۞) and prostration signs (۩)
+- Go to a page (`250`) or an ayah (`2:255`) from the box in the toolbar
+
+**In the front of the book**
+- Cover, **Fihris al-Mushaf** (all 114 surahs with ayah count, place of revelation and starting page), **Azkar** and **Duas**
+
+**In the back of the book**
+- Production notes with the key numbers, the Makki and Madani surahs, the places of prostration, and an index of the 30 juz, 60 hizb and 7 manzil
+
+**Reading tools**
+- Search the Quran in Arabic (diacritics and alef variants ignored), with highlighted matches
+- Navigate by surah, by juz, by book section, or by bookmarks. Double-click (or double-tap) an ayah to bookmark it. The app remembers where you stopped
+- Three Quran fonts (Amiri Quran, Scheherazade New, Noto Naskh Arabic), zoom, and four themes: Mushaf (default), light, dark and sepia
+- Works fully offline. Runs on Windows and Linux, and in any browser
 
 ## Shortcuts
 
 | Key | Action |
 | --- | --- |
-| Ctrl+F | Search |
-| Ctrl + / Ctrl - | Larger / smaller text |
+| Left arrow / Page Down | Next page (the Mushaf reads right to left) |
+| Right arrow / Page Up | Previous page |
 | Alt + Left / Right | Previous / next surah |
+| Ctrl+F | Search |
+| Ctrl + / Ctrl - | Zoom in / out |
 | F11 | Fullscreen |
-| Esc | Close search |
+| Esc | Close search or About |
+
+## About the pages
+
+The page boundaries (which ayah starts each of the 604 pages) are taken from the open `quran-meta` data, and have been checked against the standard starting page of all 114 surahs. The lines inside a page are re-flowed to fit your screen and fitted to about 15 lines, so line breaks will differ from a printed Mushaf.
+
+The Azkar and Duas pages are supplementary material and are not part of the Quran text.
 
 ## Credits and licences
 
 - Quran text: `quran-json` package (CC BY-SA 4.0), see `app/data/DATA-LICENSE-CC-BY-SA-4.0.txt`
+- Page, hizb, manzil and sajdah positions: derived from the `quran-meta` package (MIT)
 - Fonts: Amiri Quran, Scheherazade New and Noto Naskh Arabic (SIL OFL 1.1), licence files are in `app/fonts/`
 - App code: MIT, see `LICENSE`
 

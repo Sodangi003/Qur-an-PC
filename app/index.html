@@ -5,8 +5,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Qur'an PC</title>
-  <link rel="icon" type="image/svg+xml" href="icon.svg">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <div id="scrim" hidden></div>
@@ -18,7 +18,8 @@
     <div class="tabs" role="tablist">
       <button class="tab active" data-tab="surah" role="tab">Surahs</button>
       <button class="tab" data-tab="juz" role="tab">Juz</button>
-      <button class="tab" data-tab="marks" role="tab">Bookmarks</button>
+      <button class="tab" data-tab="book" role="tab">Book</button>
+      <button class="tab" data-tab="marks" role="tab">Marks</button>
     </div>
     <nav id="list" aria-label="Navigation"></nav>
   </aside>
@@ -27,14 +28,16 @@
     <header id="toolbar">
       <button id="menuBtn" aria-label="Open surah list" aria-expanded="false" aria-controls="sidebar">☰</button>
       <div class="tb-group tb-nav">
-        <button id="prev" title="Previous surah (Alt+←)">‹ Prev</button>
-        <button id="next" title="Next surah (Alt+→)">Next ›</button>
+        <button id="prev" title="Previous page (→ key)">‹ Prev</button>
+        <button id="next" title="Next page (← key)">Next ›</button>
       </div>
       <div class="tb-title" id="title"></div>
       <div class="tb-group tb-tools">
         <button id="searchBtn" title="Search the Quran (Ctrl+F)">Search</button>
-        <button id="smaller" title="Smaller text (Ctrl+-)">A−</button>
-        <button id="bigger" title="Larger text (Ctrl++)">A+</button>
+        <input id="goto" type="text" inputmode="numeric" autocomplete="off" placeholder="Page or 2:255" aria-label="Go to page, or surah:ayah" title="Type a page (1–604) or surah:ayah, then press Enter">
+        <button id="smaller" title="Zoom out (Ctrl+-)">A−</button>
+        <button id="bigger" title="Zoom in (Ctrl++)">A+</button>
+        <button id="spreadBtn" title="Show two pages side by side (wide screens)">2 pages</button>
         <select id="fontSel" title="Quran font" aria-label="Quran font">
           <option value="amiri">Amiri Quran</option>
           <option value="scheherazade">Scheherazade</option>
@@ -61,30 +64,33 @@
   <div id="about" hidden role="dialog" aria-modal="true" aria-labelledby="ab-title">
     <div class="ab-box">
       <div class="ab-head">
-        <img src="icon.svg" alt="">
+        <img src="icon.png" alt="">
         <div>
           <h2 id="ab-title">Qur'an PC</h2>
-          <small>Version <span id="ab-ver">1.0.0</span> · Works offline</small>
+          <small>Version <span id="ab-ver">1.1.1</span> · Works offline</small>
         </div>
       </div>
-      <p>An offline Arabic Quran reader for Windows, Linux and the web.</p>
+      <p>An offline Arabic Quran reader for Windows, Linux and the web, laid out in the 604 pages of the Madinah Mushaf, with the Fihris, Azkar, Duas and the notes and tables at the back.</p>
       <h3>Credits</h3>
       <ul>
         <li><b>Quran text:</b> from the <code>quran-json</code> project, licensed under
           <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</li>
+        <li><b>Page, hizb, manzil and sajdah positions:</b> derived from the <code>quran-meta</code> package (MIT licence).</li>
         <li><b>Amiri Quran</b> font, by Khaled Hosny. SIL Open Font License 1.1.</li>
         <li><b>Scheherazade New</b> font, by SIL Global. SIL Open Font License 1.1.</li>
         <li><b>Noto Naskh Arabic</b> font, by The Noto Project Authors. SIL Open Font License 1.1.</li>
       </ul>
       <h3>Shortcuts</h3>
-      <p>Ctrl+F search · Ctrl + / − text size · Alt+← / → previous / next surah · F11 fullscreen · double-click an ayah to bookmark it.</p>
+      <p>← / → turn the page (the Mushaf reads right to left, so ← is the next page) · on a phone, swipe right for the next page and left for the previous one · Ctrl+F search · Ctrl + / − zoom · Alt+← / → previous / next surah · F11 fullscreen · double-click an ayah to bookmark it.</p>
       <h3>Please note</h3>
       <p>Please check the text against a trusted printed mushaf before relying on it for study or teaching.</p>
       <div class="ab-foot"><button id="aboutClose">Close</button></div>
     </div>
   </div>
 
-  <script src="data/quran.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="data/quran.js?v=7"></script>
+  <script src="data/meta.js?v=7"></script>
+  <script src="book.js?v=7"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

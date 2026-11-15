@@ -1,7 +1,7 @@
 {
   "name": "quran-pc",
   "productName": "Quran PC",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Qur'an PC - offline Arabic Quran reader",
   "main": "main.js",
   "author": "Sodangi003",
