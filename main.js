@@ -1,5 +1,17 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain, net } = require('electron');
 const path = require('path');
+const { register: registerUpdates } = require('./updater');
+
+// electron-updater is only needed for self-updating copies; the app still runs without it.
+let autoUpdater = null;
+try { autoUpdater = require('electron-updater').autoUpdater; } catch (e) { /* no self-update */ }
+
+let mainWindow = null;
+const fetchJson = async (url) => {
+  const res = await net.fetch(url, { headers: { 'User-Agent': "Qur'an PC", Accept: 'application/vnd.github+json' } });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+};
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -14,8 +26,10 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
+  mainWindow = win;
 
   Menu.setApplicationMenu(null);
   win.loadFile(path.join(__dirname, 'app', 'index.html'));
@@ -37,6 +51,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  registerUpdates({ ipcMain, app, shell, fetchJson, getWindow: () => mainWindow, autoUpdater });
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

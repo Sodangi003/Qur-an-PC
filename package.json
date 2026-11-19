@@ -12,11 +12,20 @@
     "dist:win": "electron-builder --win nsis portable",
     "dist:linux": "electron-builder --linux AppImage tar.gz"
   },
+  "dependencies": {
+    "electron-updater": "^6.8.11"
+  },
+  "devDependencies": {
+    "electron": "^45.2.3",
+    "electron-builder": "^26.0.0"
+  },
   "build": {
     "appId": "com.sodangi003.quranpc",
     "productName": "Quran PC",
     "files": [
       "main.js",
+      "preload.js",
+      "updater.js",
       "app/**/*",
       "package.json"
     ],
@@ -42,10 +51,13 @@
     },
     "portable": {
       "artifactName": "Qur-an-PC-Portable-${version}.${ext}"
-    }
-  },
-  "devDependencies": {
-    "electron": "^45.2.3",
-    "electron-builder": "^26.0.0"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Sodangi003",
+        "repo": "Qur-an-PC"
+      }
+    ]
   }
 }

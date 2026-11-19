@@ -5,7 +5,7 @@
   const $ = (id) => document.getElementById(id);
   const list = $('list'), reader = $('reader'), titleEl = $('title');
 
-  const JUZ_START = [
+  const JUZ_START = M.juz || [
     [1,1],[2,142],[2,253],[3,93],[4,24],[4,148],[5,82],[6,111],[7,88],[8,41],
     [9,93],[11,6],[12,53],[15,1],[17,1],[18,75],[21,1],[23,1],[25,21],[27,56],
     [29,46],[33,31],[36,28],[39,32],[41,47],[46,1],[51,31],[58,1],[67,1],[78,1]
@@ -16,6 +16,12 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* ignore */ } }
   };
+
+  // Each riwaya keeps its own place and bookmarks. Hafs keeps the original key names,
+  // so people who already use the app do not lose their place.
+  const RW = window.QRIWAYA || { id: 'hafs', prefix: '' };
+  const pk = (k) => RW.prefix + k;
+  $('riwayaBtn').onclick = () => window.QCHOOSE && window.QCHOOSE();
 
   // ---------- book geometry ----------
   const TOTAL = M.pages.length;           // 604
@@ -61,9 +67,9 @@
 
   // Resume where the reader stopped. A first-time reader opens at the cover.
   function initialLeaf() {
-    const l = store.get('leaf', null);
+    const l = store.get(pk('leaf'), null);
     if (l !== null && LEAF_IDX.has(l)) return l;
-    const s = store.get('surah', null);        // saved by the older, scrolling version
+    const s = store.get(pk('surah'), null);        // saved by the older, scrolling version
     if (typeof s === 'number' && s >= 1 && s <= 114) return surahPage(s);
     return 'f-cover';
   }
@@ -73,15 +79,24 @@
     tab: 'surah',
     zoom: clamp(store.get('zoom', 1), 0.7, 1.8),
     theme: store.get('theme', null),
-    font: store.get('font', 'amiri'),
+    font: RW.font ? 'own' : store.get('font', 'amiri'),
     spread: store.get('spread', true),
-    marks: store.get('marks', []) // ["s:a", ...]
+    marks: store.get(pk('marks'), []) // ["s:a", ...]
   };
   const isMarked = (s, a) => state.marks.includes(key(s, a));
 
   // ---------- theme / font / zoom ----------
   const THEMES = ['mushaf', 'light', 'dark', 'sepia'];
-  const FONTS = {
+  // A riwaya with its own printed font (Warsh, Qalun, ...) is shown in that font, loaded from the app folder.
+  if (RW.font) {
+    const st = document.createElement('style');
+    st.textContent = '@font-face{font-family:"' + RW.font.family + '";src:url("' + RW.font.file + '") format("truetype");font-display:block}';
+    document.head.appendChild(st);
+    $('fontSel').hidden = true;
+  }
+  const FONTS = RW.font ? {
+    own: [RW.font.family, '"' + RW.font.family + '", "Amiri Quran", "Traditional Arabic", serif']
+  } : {
     amiri: ['Amiri Quran', '"Amiri Quran", "Scheherazade New", "Traditional Arabic", serif'],
     scheherazade: ['Scheherazade New', '"Scheherazade New", "Traditional Arabic", serif'],
     naskh: ['Noto Naskh Arabic', '"Noto Naskh Arabic", "Traditional Arabic", serif']
@@ -93,12 +108,12 @@
     document.documentElement.setAttribute('data-theme', t);
   }
   function applyFont() {
-    if (!FONTS[state.font]) state.font = 'amiri';
+    if (!FONTS[state.font]) state.font = RW.font ? 'own' : 'amiri';
     document.documentElement.style.setProperty('--quran-font', FONTS[state.font][1]);
     $('fontSel').value = state.font;
-    store.set('font', state.font);
+    if (!RW.font) store.set('font', state.font);
     fontsReady = Promise.all([
-      document.fonts.load('32px "' + FONTS[state.font][0] + '"', 'بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ'),
+      document.fonts.load('32px "' + FONTS[state.font][0] + '"', M.bism || 'بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ'),
       document.fonts.load('32px "Amiri Quran"', '۞۩')
     ]).catch(() => {});
   }
@@ -220,9 +235,10 @@
     };
   });
   $('filter').oninput = renderList;
+  if (!JUZ_IDS.length) { const jt = document.querySelector('.tab[data-tab="juz"]'); if (jt) jt.hidden = true; }
 
   // ---------- page building ----------
-  const BISMILLAH = 'بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ';
+  const BISMILLAH = M.bism || 'بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ';
   const RUB_LABEL = ['', 'ربع الحزب', 'نصف الحزب', 'ثلاثة أرباع الحزب'];
 
   function appendAyah(seg, s, a) {
@@ -263,7 +279,7 @@
     const juz = countLE(JUZ_IDS, startId);
     const hizb = Math.max(1, Math.floor((countLE(RUB_IDS, startId) - 1) / 4) + 1);
     const head = h('div', 'mp-head');
-    head.appendChild(h('span', 'mp-juz', 'الجزء ' + toAr(juz) + ' · الحزب ' + toAr(hizb)));
+    head.appendChild(h('span', 'mp-juz', JUZ_IDS.length ? 'الجزء ' + toAr(juz) + (RUB_IDS.length ? ' · الحزب ' + toAr(hizb) : '') : ''));
     head.appendChild(h('span', 'mp-sn', 'سورة ' + Q[s0 - 1].ar));
     el.appendChild(head);
 
@@ -276,7 +292,8 @@
         const bn = h('div', 'mp-banner');
         bn.appendChild(h('span', 'mp-bn', 'سُورَةُ ' + Q[s - 1].ar));
         body.appendChild(bn);
-        if (s !== 1 && s !== 9) body.appendChild(h('div', 'mp-bism', BISMILLAH));
+        // Al-Fatihah has no separate bismillah line when it is counted as ayah 1 (Hafs).
+        if ((s !== 1 || RW.fatihaBasmala === 'header') && s !== 9) body.appendChild(h('div', 'mp-bism', BISMILLAH));
       }
       if (!seg) { seg = h('div', 'mp-text'); body.appendChild(seg); }
       appendAyah(seg, s, a);
@@ -445,13 +462,14 @@
   }
 
   function updateChrome() {
+    document.dispatchEvent(new CustomEvent('qpc:page'));
     const leaf = state.leaf;
     let t;
     if (typeof leaf === 'number') {
       const [s] = idToSA(PSTART[visible[0] - 1]);
       const juz = countLE(JUZ_IDS, PSTART[visible[0] - 1]);
       const pages = visible.length === 2 ? 'Pages ' + visible[0] + '–' + visible[1] : 'Page ' + visible[0];
-      t = Q[s - 1].en + ' · Juz ' + juz + ' · ' + pages + ' of ' + TOTAL;
+      t = Q[s - 1].en + (JUZ_IDS.length ? ' · Juz ' + juz : '') + ' · ' + pages + ' of ' + TOTAL;
       titleEl.textContent = t;
       document.title = Q[s - 1].en + " — Qur'an PC";
     } else {
@@ -484,12 +502,17 @@
     const prevIdx = LEAF_IDX.get(state.leaf);
     const dir = LEAF_IDX.get(leaf) > prevIdx ? 'next' : (LEAF_IDX.get(leaf) < prevIdx ? 'prev' : '');
     state.leaf = leaf;
-    store.set('leaf', leaf);
+    store.set(pk('leaf'), leaf);
     pendingFlash = flash || null;
     render(dir);
   }
   function openPage(p) { go(p); }
   function openAyah(s, a) { go(pageOf(s, a), a > 1 || s ? [s, a] : null); }
+  // Used by the recitation player (audio.js).
+  window.QREADER = {
+    open: openAyah,
+    surah() { return typeof state.leaf === 'number' && visible.length ? idToSA(PSTART[visible[0] - 1])[0] : null; }
+  };
 
   function step(dir) {
     const base = dir > 0 ? visible[visible.length - 1] : visible[0];
@@ -515,7 +538,7 @@
     const k = key(s, a);
     const i = state.marks.indexOf(k);
     if (i >= 0) state.marks.splice(i, 1); else state.marks.push(k);
-    store.set('marks', state.marks);
+    store.set(pk('marks'), state.marks);
     el.classList.toggle('marked', i < 0);
     window.getSelection().removeAllRanges();
     if (state.tab === 'marks') renderList();
@@ -554,7 +577,7 @@
 
   // ---------- search ----------
   let NORM = null; // [{s, a, n, map}]
-  const DIAC = /[ـً-ٰٟۖ-ۭ࣓-ࣿ]/;
+  const DIAC = /[\u0640\u064B-\u0670\u06D6-\u06ED\u0887\u0888\u08C9\u08CC\u08D3-\u08FF\u200D\u200F]/;
 
   function normalize(str) {
     let out = '';
@@ -562,7 +585,8 @@
     for (let i = 0; i < str.length; i++) {
       let c = str[i];
       if (DIAC.test(c)) continue;
-      if ('ٱأإآ'.includes(c)) c = 'ا';
+      if ('ٱأإآ'.includes(c) || (c >= '\u0870' && c <= '\u0879')) c = 'ا';   // 0870-0879: the alef shapes of Warsh and Qalun
+      else if (c === '\u06D1' || c === '\u06D2') c = 'ي';
       else if (c === 'ى' || c === 'ی') c = 'ي';
       else if (c === 'ک') c = 'ك';
       out += c;
@@ -656,6 +680,14 @@
     if (e.key === 'ArrowLeft' || e.key === 'PageDown') { e.preventDefault(); step(1); }
     else if (e.key === 'ArrowRight' || e.key === 'PageUp') { e.preventDefault(); step(-1); }
   });
+
+  // Credits for the riwaya that is open (Hafs is credited in the list above).
+  if (RW.id !== 'hafs' && $('abRiwaya')) {
+    const box = $('abRiwaya');
+    const h3 = h('h3', null, 'This riwaya · ' + RW.en);
+    const p = h('p', null, 'Text, pages and font: King Fahd Complex for the Printing of the Holy Qur\'an in Madinah (مجمع الملك فهد لطباعة المصحف الشريف بالمدينة المنورة), through the open quran-text dataset (CC BY 4.0). The text and fonts are used unmodified, under the Complex\'s usage policy, and the intellectual property rights stay with the Complex. Please check the text against a trusted printed mushaf. ' + (RW.verify || ''));
+    box.appendChild(h3); box.appendChild(p);
+  }
 
   // ---------- start ----------
   let resizeTimer = null;

@@ -23,6 +23,8 @@ jobs:
           mkdir -p _site/reader
           cp -r site/. _site/
           cp -r app/. _site/reader/
+          # the web reader checks this file to tell people a newer version is out
+          node -e "require('fs').writeFileSync('_site/reader/version.json', JSON.stringify({version: require('./package.json').version}))"
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

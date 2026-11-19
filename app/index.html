@@ -2,16 +2,27 @@
 <html lang="ar" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; media-src 'self' blob: https:; connect-src 'self' https:">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Qur'an PC</title>
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="theme-color" content="#33231a">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=20">
 </head>
-<body>
+<body class="choosing">
+  <section id="riwayaScreen" aria-label="Choose a riwaya" hidden>
+    <div class="rw-box">
+      <img class="rw-logo" src="icon.png" alt="" width="84" height="84">
+      <h1 class="rw-h" dir="rtl">اختر الرواية</h1>
+      <p class="rw-sub">Choose a riwaya to open its Mushaf</p>
+      <div id="rwGrid" class="rw-grid"></div>
+      <label class="rw-auto"><input type="checkbox" id="rwAuto"> <span>افتح هذه الرواية مباشرة في المرة القادمة · Open it directly next time</span></label>
+      <p id="rwMsg" class="rw-msg" role="status"></p>
+      <button id="rwUpdate" class="rw-upd" type="button">Check for updates</button>
+    </div>
+  </section>
   <div id="scrim" hidden></div>
   <aside id="sidebar">
     <div class="side-head">
@@ -29,6 +40,7 @@
 
   <main id="main">
     <header id="toolbar">
+      <button id="audioBtn" title="Listen to the recitation" aria-label="Recitation" aria-pressed="false" hidden>♪</button>
       <button id="menuBtn" aria-label="Open surah list" aria-expanded="false" aria-controls="sidebar">☰</button>
       <div class="tb-group tb-nav">
         <button id="prev" title="Previous page (→ key)">‹ Prev</button>
@@ -48,6 +60,8 @@
         </select>
         <button id="theme" title="Change theme (mushaf, light, dark, sepia)">Theme</button>
         <button id="installBtn" title="Install Qur'an PC as an app on this device" hidden>Install</button>
+        <button id="riwayaBtn" title="Choose another riwaya">الرواية</button>
+        <button id="updateBtn" title="Check for updates">Update</button>
         <button id="aboutBtn" title="About and credits">About</button>
       </div>
     </header>
@@ -62,6 +76,22 @@
       </div>
       <div id="sp-count"></div>
       <div id="sp-results"></div>
+    </div>
+  </div>
+
+  <div id="updateDlg" hidden role="dialog" aria-modal="true" aria-labelledby="up-title">
+    <div class="ab-box up-box">
+      <div class="ab-head">
+        <img src="icon.png" alt="">
+        <div>
+          <h2 id="up-title">Update Qur'an PC</h2>
+          <small>Your version: <span id="upVer"></span></small>
+        </div>
+      </div>
+      <p id="upMsg" role="status" aria-live="polite"></p>
+      <progress id="upBar" max="100" value="0" hidden></progress>
+      <div class="up-actions"><button id="upAct" hidden></button><button id="upAlt" hidden></button></div>
+      <div class="ab-foot"><button id="upClose">Close</button></div>
     </div>
   </div>
 
@@ -84,6 +114,7 @@
         <li><b>Scheherazade New</b> font, by SIL Global. SIL Open Font License 1.1.</li>
         <li><b>Noto Naskh Arabic</b> font, by The Noto Project Authors. SIL Open Font License 1.1.</li>
       </ul>
+      <div id="abRiwaya"></div>
       <h3>Install from the browser</h3>
       <p>In Chrome, Edge or Brave, click the Install button in the toolbar, or the install icon in the address bar. On an iPhone, tap Share, then Add to Home Screen. The install is only a few MB and then works offline.</p>
       <h3>Shortcuts</h3>
@@ -94,10 +125,9 @@
     </div>
   </div>
 
-  <script src="data/quran.js?v=8"></script>
-  <script src="data/meta.js?v=8"></script>
-  <script src="book.js?v=8"></script>
-  <script src="app.js?v=8"></script>
-  <script src="pwa.js?v=8"></script>
+  <script src="data/riwayat.js?v=20"></script>
+  <script src="riwaya.js?v=20"></script>
+  <script src="pwa.js?v=20"></script>
+  <script src="update.js?v=20"></script>
 </body>
 </html>

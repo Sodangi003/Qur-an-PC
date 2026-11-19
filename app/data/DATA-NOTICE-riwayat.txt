@@ -1,0 +1,10 @@
+Warsh and Qalun text and layout data (data/warsh.js, data/qalun.js)
+
+Source: the quran-text dataset by Quran.ws (https://github.com/quran-ws/quran-text, CC BY 4.0),
+built from the King Fahd Glorious Quran Printing Complex (KFGQPC) digital mushaf files.
+The Qur'anic text and the fonts (fonts/Uthmanic*.ttf) remain under the Complex's own usage rights,
+reproduced in fonts/KFGQPC-USAGE-RIGHTS.txt. They may be used free of charge in software and web sites;
+printing mushafs for commercial sale is not covered.
+
+Qalun hizb quarters and manzil: quran-meta (MIT), checked against the signs printed in the Qalun text.
+Verse numbers, pages, juz and sajdah signs follow the printed Warsh / Qalun mushaf.

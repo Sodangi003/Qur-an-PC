@@ -89,3 +89,12 @@ The Azkar and Duas pages are supplementary material and are not part of the Qura
 - App code: MIT, see `LICENSE`
 
 Please have the text reviewed against a trusted printed mushaf or an authorised source (for example the King Fahd Complex) before wide public distribution.
+
+## Releasing an update
+
+1. Change `"version"` in `package.json` (for example `1.1.2`) and the version shown in `app/index.html` (`#ab-ver`).
+2. Push to `main`. The website and web reader update by themselves (the reader shows an update dot, and "Update now" reloads the latest files).
+3. Create and push a tag: `git tag v1.1.2 && git push origin v1.1.2`. GitHub Actions builds the Windows and Linux files and attaches them, with `latest.yml` and `latest-linux.yml`, to the release. Publish the release (not as a draft or pre-release).
+4. Installed copies (the Windows installer and the Linux AppImage) check GitHub, show a dot on **Update**, and download and install the new version when the person agrees. Portable and `.tar.gz` copies are pointed to the download page.
+
+The first version that contains the **Update** button has to be installed by hand; updates are automatic after that.

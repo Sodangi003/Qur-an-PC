@@ -7,6 +7,11 @@
   const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
   const toAr = (n) => String(n).replace(/\d/g, (d) => AR_DIGITS[d]);
   const MADANI = new Set(M.madani);
+  const RW = window.QRIWAYA || { id: 'hafs', en: "Hafs from ʿĀṣim" };
+  const HAFS = RW.id === 'hafs';
+  const HIZB = M.hizbQ.length === 240;
+  const HASJUZ = !M.juz || M.juz.length === 30;
+  const nMad = M.madani.length, nMak = 114 - nMad;
   const PBUH = 'صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ';
 
   function h(tag, cls, text) {
@@ -32,7 +37,8 @@
     return Q[s - 1].v[a - 1].replace(/۞/g, '').trim();
   }
   function quranBlock(ref) {
-    // ref = [surah, fromAyah, toAyah?]
+    // ref = [surah, fromAyah, toAyah?], written in Hafs numbering; other riwayat number some ayahs differently.
+    if (M.ref && M.ref[ref.join(',')]) ref = M.ref[ref.join(',')];
     const [s, from, to] = ref;
     const last = to || from;
     const box = h('div', 'az-quran');
@@ -309,7 +315,7 @@
     const g = group('tbl fh', headRow(['No.', 'السورة', 'Surah', 'Ayahs', 'Place', 'Page']));
     const u = [
       U(() => title('فهرس المصحف', 'Fihris al-Mushaf · Index of the surahs'), { keep: true }),
-      U(() => note('Tap a surah to open its page. Place of revelation follows the Madinah Mushaf: 86 Makki and 28 Madani surahs.'), { keep: true })
+      U(() => note('Tap a surah to open its page. Place of revelation follows the printed mushaf of this riwaya: ' + nMak + ' Makki and ' + nMad + ' Madani surahs.'), { keep: true })
     ];
     Q.forEach((s) => u.push(rowUnit(g, () => {
       const tb = h('tbody');
@@ -359,9 +365,10 @@
     const makki = Q.filter((s) => !MADANI.has(s.n)).length;
     const kn = [
       ['Surahs · السور', Q.length], ['Ayahs · الآيات', ayahs.toLocaleString('en')],
-      ['Pages · الصفحات', M.pages.length], ['Juz · الأجزاء', 30],
-      ['Hizb · الأحزاب', M.hizbQ.length / 4], ['Quarters of a hizb · الأرباع', M.hizbQ.length],
-      ['Manzil · المنازل', M.manzil.length], ['Ruku · الركوعات', M.rukuCount],
+      ['Pages · الصفحات', M.pages.length], ...(HASJUZ ? [['Juz · الأجزاء', 30]] : []),
+      ...(HIZB ? [['Hizb · الأحزاب', M.hizbQ.length / 4], ['Quarters of a hizb · الأرباع', M.hizbQ.length]] : []),
+      ['Manzil · المنازل', M.manzil.length],
+      ...(M.rukuCount ? [['Ruku · الركوعات', M.rukuCount]] : []),
       ['Sajdah places · مواضع السجود', M.sajda.length],
       ['Makki surahs · السور المكية', makki], ['Madani surahs · السور المدنية', Q.length - makki]
     ];
@@ -375,11 +382,18 @@
       tb.appendChild(add(h('tr'), h('th', null, r[0]), h('td', 'c', String(r[1]))));
       return tb;
     })));
-    const notes = [
+    const notes = HAFS ? [
       ['The text', "Uthmani script, riwayah Hafs 'an 'Asim, with the Kufan verse count of 6,236 ayahs. It comes from the open quran-json project and is licensed CC BY-SA 4.0, so any copy you share must keep the same licence and credit."],
       ['The pages', 'The 604 pages use the page boundaries of the Madinah Mushaf layout, as recorded in the open quran-meta data. Lines are re-flowed to fit your screen and each page is fitted to about 15 lines, so line breaks will differ from the printed copy.'],
       ['Juz, hizb and manzil', 'The 30 juz, 60 hizb (240 quarters) and 7 manzil follow the traditional divisions, and the quarter positions agree with the signs carried in the Qur\'an text itself. The sign ۞ shows where a hizb or a quarter begins, and ۩ marks a place of prostration.'],
       ['Places of revelation', 'The Makki and Madani classification follows the Madinah Mushaf: 86 Makki and 28 Madani surahs.'],
+      ['Adhkar and duas', "The Azkar and Duas pages are not Qur'an text. They were added for convenience, from the Qur'an and from Hisn al-Muslim."],
+      ['Please verify', 'This is a reading aid and not an official print. Before using it for teaching, memorisation or printing, check the text against a trusted printed Mushaf or an authorised digital source, such as the King Fahd Glorious Quran Printing Complex.']
+    ] : [
+      ['The text', 'Riwaya ' + RW.en + ', ' + RW.count + '. The text and its font come from the King Fahd Complex for the Printing of the Holy Qur\'an in Madinah, through the open quran-text dataset (CC BY 4.0), and are used unmodified under the Complex\'s usage policy. Verse numbers follow the count of this riwaya, so some ayahs are joined or split compared with the Hafs mushaf.'],
+      ['The pages', 'The 604 pages follow the page boundaries of the printed mushaf of this riwaya. A few pages of the print begin in the middle of an ayah; here that ayah stays whole on the earlier page. Lines are re-flowed to fit your screen, so line breaks differ from the printed copy.'],
+      ['Juz, hizb and manzil', (HASJUZ ? 'The 30 juz follow the printed mushaf. ' : '') + (HIZB ? 'The 240 hizb quarters come from the open quran-meta data and agree with most of the ۞ signs printed in the text; check the exact place against your printed mushaf. ' : (RW.verify || '') + ' ') + '۩ marks the ' + M.sajda.length + ' places of prostration printed in this mushaf.'],
+      ['Places of revelation', 'The Makki and Madani classification follows this edition: ' + nMak + ' Makki and ' + nMad + ' Madani surahs.'],
       ['Adhkar and duas', "The Azkar and Duas pages are not Qur'an text. They were added for convenience, from the Qur'an and from Hisn al-Muslim."],
       ['Please verify', 'This is a reading aid and not an official print. Before using it for teaching, memorisation or printing, check the text against a trusted printed Mushaf or an authorised digital source, such as the King Fahd Glorious Quran Printing Complex.']
     ];
@@ -422,7 +436,7 @@
     const g = group('tbl sjt', headRow(['#', 'Surah', 'Ayah', 'Page', 'الآية']));
     const u = [
       U(() => title('آيات السجدة', 'Places of prostration (sajdat al-tilawah)'), { keep: true }),
-      U(() => note('The Madinah Mushaf marks ' + M.sajda.length + ' places with ۩. Scholars differ on the exact number and positions (commonly 14 or 15), so follow the teaching of your own school. Tap a row to open its page.'), { keep: true })
+      U(() => note('This mushaf marks ' + M.sajda.length + ' places with ۩. Scholars differ on the exact number and positions (commonly 12 to 15), so follow the teaching of your own school. Tap a row to open its page.'), { keep: true })
     ];
     M.sajda.forEach(([s, a], i) => u.push(rowUnit(g, () => {
       const tb = h('tbody');
@@ -439,15 +453,22 @@
 
   function juzUnits() {
     const rub = (i) => M.hizbQ[i];
-    const g = group('tbl jz', headRow(['Juz · الجزء', 'Starts at', 'Page', 'Hizb', 'Page']));
+    const g = group('tbl jz', HIZB ? headRow(['Juz · الجزء', 'Starts at', 'Page', 'Hizb', 'Page']) : headRow(['Juz · الجزء', 'Starts at', 'Page']));
     const u = [
-      U(() => title('فهرس الأجزاء والأحزاب', 'Index of juz, hizb and manzil'), { keep: true }),
+      U(() => title(HIZB ? 'فهرس الأجزاء والأحزاب' : HASJUZ ? 'فهرس الأجزاء' : 'فهرس المنازل', HIZB ? 'Index of juz, hizb and manzil' : HASJUZ ? 'Index of juz and manzil' : 'Index of manzil'), { keep: true }),
       U(() => note('Tap a row to open its page.'), { keep: true })
     ];
-    for (let j = 1; j <= 30; j++) {
+    for (let j = 1; j <= (HASJUZ ? 30 : 0); j++) {
       u.push(rowUnit(g, () => {
         const tb = h('tbody');
-        const [s, a] = rub((j - 1) * 8);
+        const [s, a] = M.juz ? M.juz[j - 1] : rub((j - 1) * 8);
+        if (!HIZB) {
+          const tr = h('tr');
+          clickable(tr, () => CTX.openAyah(s, a));
+          add(tr, h('td', 'c', toAr(j) + ' · ' + j), h('td', null, Q[s - 1].en + ' ' + s + ':' + a), h('td', 'c', String(CTX.pageOf(s, a))));
+          tb.appendChild(tr);
+          return tb;
+        }
         for (let k = 0; k < 2; k++) {
           const hz = (j - 1) * 2 + k + 1;
           const [hs, ha] = rub((hz - 1) * 4);
@@ -511,7 +532,7 @@
         const img = h('img');
         img.src = 'cover.webp';
         img.alt = '';
-        add(box, img, h('div', 'ar', 'القرآن الكريم'), h('div', 'en', "Qur'an PC · Riwayat Hafs 'an 'Asim"));
+        add(box, img, h('div', 'ar', 'القرآن الكريم'), h('div', 'en', "Qur'an PC · " + (HAFS ? "Riwayat Hafs 'an 'Asim" : 'Riwaya ' + RW.en)));
         return box;
       }
     };
@@ -522,7 +543,7 @@
     addSection('b-notes', 'back', 'ملاحظات حول هذه الطبعة', 'Production notes', notesUnits());
     addSection('b-places', 'back', 'المكي والمدني', 'Makki and Madani surahs', placesUnits());
     addSection('b-sajdah', 'back', 'مواضع السجود', 'Sajdah verses', sajdahUnits());
-    addSection('b-juz', 'back', 'فهرس الأجزاء والأحزاب', 'Index of juz and hizb', juzUnits());
+    addSection('b-juz', 'back', HIZB ? 'فهرس الأجزاء والأحزاب' : HASJUZ ? 'فهرس الأجزاء' : 'فهرس المنازل', HIZB ? 'Index of juz and hizb' : HASJUZ ? 'Index of juz' : 'Index of manzil', juzUnits());
     probe.remove();
     probe = null;
   }
